@@ -18,6 +18,7 @@ const navigationOptions = ({ navigation }) => ({
     fontSize: 16,
     fontFamily: 'Open Sans',
     fontWeight: '600',
+    alignSelf:'center'
   },
   headerBackTitle: null,
   headerLeft: null,
