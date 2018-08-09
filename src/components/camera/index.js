@@ -1,22 +1,43 @@
 import React from 'react'
-import { RNCamera } from 'react-native-camera';
-import { View, TouchableOpacity, Text, Modal, Image } from 'react-native';
+import {View, Alert, NativeModules, TouchableOpacity, ToastAndroid, Text, Modal, Image } from 'react-native';
+import Camera from 'react-native-camera';
+
+
 import styles from './styles';
 
-class CameraView extends React.Component {
-
-  takePicture = async function() {
-    const options = { quality: 0.5, base64: true };
-    const data = await this.camera.takePictureAsync(options)
-    console.log(data.uri);
-  };
+export default class CameraView extends React.Component {
+    state={
+        loading: false,
+        photoPermission: null,
+        foto64: ''
+      }
+ 
+  takePicture() {
+    const options = {};
+    this.camera.capture({metadata: options})
+      .then((data) => {
+        this.props.openCamera(false)
+        console.log(this.props.navigation.state.params, 'paramestros')
+        if(this.props.navigation.state.params.verificarFotoFrente==true){
+          this.props.navigation.setParams({ fotofrente: data.mediaUri})
+          this.props.openFotoFrente(this.props.navigation.state.params.fotofrente)
+        }else{
+          this.props.navigation.setParams({ fotoverso: data.mediaUri})
+          this.props.openFotoVerso(this.props.navigation.state.params.fotoverso)
+        }
+      })
+      .catch(err => console.error(err));
+  }  
 
   render() {
-    const { visible, openCamera} = this.props;
+    const { visible, openCamera, navigation, openFotoFrente, openFotoVerso } = this.props;
     if(!visible) return (<View/>)
     return (
-      <View>
-      <Modal>
+        
+        
+      <Modal onRequestClose={() => {
+            alert('Modal has been closed.');
+        }}>
       
       <View style={styles.container}>
         <View style={styles.headerCamera}>
@@ -24,30 +45,27 @@ class CameraView extends React.Component {
             <Text style={styles.txtCancel}> Cancelar </Text>
           </TouchableOpacity>
         </View>
-        <RNCamera
-          ref={cam => {
-            this.camera = cam;
+        <Camera
+          ref={(cam) => {
+              this.camera = cam;
           }}
           style={styles.preview}
-        >
-          <View style={styles.containerImagem}>
-            <Image source={require("../../../img/group4.png")} style={styles.imagemRg} />
-          </View>
-          <View style={styles.captureContainer}>
-            <TouchableOpacity 
-            onPress={this.takePicture.bind(this)}>
-              <Image source={require("../../../img/group5.png")} style={styles.captureImg} />
-            </TouchableOpacity>
-          </View>
-        </RNCamera>
+          aspect={Camera.constants.Aspect.fill}
+          >
+            <View style={styles.containerImagem}>
+                <Image source={require("../../../img/group4.png")} style={styles.imagemRg} />
+            </View>
+            
+              <TouchableOpacity
+                style={styles.capture}
+                onPress={this.takePicture.bind(this)}>
+                    <Image source={require("../../../img/group5.png")} style={styles.captureImg} />
+                </TouchableOpacity>
+        </Camera>
 
-        <View style={styles.space} />
         </View>
       </Modal>
-
-      </View>
     );
   }
 }
 
-export default CameraView;

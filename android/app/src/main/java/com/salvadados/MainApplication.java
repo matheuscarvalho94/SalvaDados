@@ -3,6 +3,10 @@ package com.salvadados;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.snapp.imagebase64.RNImgToBase64Package;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.github.xfumihiro.react_native_image_to_base64.ImageToBase64Package;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,6 +28,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNImgToBase64Package(),
+            new RNSpinkitPackage(),
+            new ImageToBase64Package(),
+            new ImageResizerPackage(),
             new RNCameraPackage()
       );
     }

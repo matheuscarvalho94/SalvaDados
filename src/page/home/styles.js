@@ -2,10 +2,14 @@ import { StyleSheet, Platform } from 'react-native';
 import { colors } from '../../styles';
 
 const styles = StyleSheet.create({
+  base: {
+    width: '90%',
+  },
   container: {
     backgroundColor: colors.primary,
     flex: 1,
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 47,
   },
@@ -18,10 +22,11 @@ const styles = StyleSheet.create({
     height: 32,
   },
   center: {
-    width: '100%',
+    width: '90%',
   },
   center2: {
     width: '60%',
+    textAlign: 'center',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

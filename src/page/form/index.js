@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StatusBar, Image, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, StatusBar, Image, Text, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import styles from './styles';
 
 import CameraView from '../../components/camera';
@@ -22,7 +22,14 @@ export default class Form extends React.Component {
     openCamera(visible){
         this.setState({status: visible})
     }
+    openFotoFrente(foto){
+        this.setState({fotofrente: foto})
+    }
 
+    openFotoVerso(foto){
+        this.setState({fotoverso: foto})
+    }
+   
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
           <TouchableOpacity style={{margin: 20}} onPress={() => navigation.goBack()}>
@@ -58,6 +65,9 @@ export default class Form extends React.Component {
                 <CameraView 
                     visible={this.state.status}
                     openCamera={ () => this.openCamera(false)}
+                    navigation={ this.props.navigation }
+                    openFotoFrente={ () => this.openFotoFrente(this.props.navigation.state.params.fotofrente)}
+                    openFotoVerso={ () => this.openFotoVerso(this.props.navigation.state.params.fotoverso)}
                     />
                     
                 <ScrollView>
@@ -95,6 +105,7 @@ export default class Form extends React.Component {
                     <View style={styles.row}>
                         <Text style={styles.label}> DATA DE NASCIMENTO: </Text>
                         <DatePicker
+                        style={styles.inputdate}
                             customStyles={{
                             dateInput:{
                                 height: 50,
@@ -117,6 +128,7 @@ export default class Form extends React.Component {
                             }}
                             date={this.state.data}
                             mode="date"
+                            hideText="false"
                             placeholder=""
                             format="DD/MM/YYYY"
                             confirmBtnText="Confirmar"
@@ -133,20 +145,33 @@ export default class Form extends React.Component {
 
                 <View style={styles.formFotos}>
 
-                    <TouchableOpacity style={styles.rowFlex} onPress={() => { this.openCamera(!this.state.status); }}>
-                        <Image source={require("../../../img/group.png")} style={styles.iconFoto} />
+                    <TouchableOpacity style={styles.rowFlex} onPress={() => {
+                        this.openCamera(!this.state.status,  this.props.navigation.setParams({ verificarFotoFrente: true, verificarFotoVerso: false}));
+                     }}>
+                        {   
+                            this.state.fotofrente
+                            ?<Image source={require("../../../img/icoRg.png")} style={styles.icoRg} />
+                            :<Image source={require("../../../img/group.png")} style={styles.iconFoto} />
+                        }
                         <Text style={styles.label}> FOTO FRENTE </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.rowFlex}>
-                        <Image source={require("../../../img/group.png")} style={styles.iconFoto} />
+                    <TouchableOpacity style={styles.rowFlex} onPress={() => {
+                        this.openCamera(!this.state.status,  this.props.navigation.setParams({ verificarFotoVerso: true, verificarFotoFrente: false}));
+                     }}>
+                        {   
+                            this.state.fotoverso
+                            ?<Image source={require("../../../img/icoRg.png")} style={styles.icoRg} />
+                            :<Image source={require("../../../img/group.png")} style={styles.iconFoto} />
+                        }
                         <Text style={styles.label}> FOTO DO VERSO </Text>
                     </TouchableOpacity>
+
 
                 </View>
 
                 <View style={styles.areaButton}>
                     <TouchableOpacity style={styles.buttonSave} onPress={ () => {
-                        this.setAsyncStorage(this.state)
+                        this.saveForm(this.state)
                     }}>
                         <Text style={styles.textButton}> SALVAR DOCUMENTO </Text>
                     </TouchableOpacity>
@@ -156,16 +181,35 @@ export default class Form extends React.Component {
         );
     }
     
-    setAsyncStorage() {
-        store.push('@DadosSalvo', this.state)
-        this.props.navigation.navigate('Home')
+    validation = () => {
+        if (!this.state.nome) {
+          return "Nome";
+        }else if (!this.state.rg) {
+          return "Rg";
+        } else if (!this.state.data) {
+            return "Data";
+        } 
+        return true
+      }
+    saveForm() {
+        let mensagem = this.validation()
+        if(mensagem==true){
+            if(!this.props.navigation.state.params.item.nome){
+                store.push('@DadosSalvo', this.state)
+                this.props.navigation.navigate('Home')
+            }else{
+                store.update('@DadosSalvo', this.state)
+                this.props.navigation.navigate('Home')
+            }
+        }else{
+            Alert.alert(
+                'Salva Dados',
+                "O campo " + mensagem + " é obrigatório",
+                [
+                  {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ],
+              )
+        }
     }
 
-    takePicture = async function() {
-        if (this.camera) {
-          const options = { quality: 0.5, base64: true };
-          const data = await this.camera.takePictureAsync(options)
-          console.log(data.uri);
-        }
-    };
 }

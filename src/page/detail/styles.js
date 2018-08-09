@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   row:{
     width: '100%',
-    marginBottom: 15,
+    marginBottom: 26,
     paddingLeft: 16,
     paddingRight: 16,
   },
@@ -78,6 +78,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.blue,
     fontWeight: '600'
+  },
+  imagemModal: {
+    width: '100%'
   }
 });
 

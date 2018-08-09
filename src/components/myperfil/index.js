@@ -9,7 +9,10 @@ export default class MyPerfil extends React.Component {
 
         return (
             <Modal
-                visible>
+                visible
+                onRequestClose={() => {
+                    alert('Modal has been closed.');
+                }}>
                 <StatusBar barStyle="light-content" backgroundColor="white"/>
 
                 <ScrollView>

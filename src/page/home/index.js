@@ -34,17 +34,17 @@ export default class Home extends React.Component {
     getDados(){
         store.get('@DadosSalvo')
             .then((res) =>{
-                console.log(res)
+                console.log(res, 'DADOS?')
                 this.setState({
                     list: res,
                 })
             }
         )
     }
-
-    componentDidMount(){
+    componentDidMount() {
         this.getDados()
-    }
+    } 
+    
 
     static navigationOptions = () => ({
         headerLeft:(
@@ -52,8 +52,51 @@ export default class Home extends React.Component {
             <Image source={require("../../../img/rectangle5.png")} style={styles.foto} />
           </TouchableOpacity>
         ),
-        title: 'Nome da pessoa'
+        title: 'Nome da pessoa',
     });
+
+    render() {
+        _setModalHeader = (condition) => {
+            this.setState({modalPerfil: condition});
+        }
+        return (
+            <View style={styles.container}>
+                <MyPerfil
+                    visible={this.state.modalPerfil}
+                    setModalPerfil={ () => { this.setModalPerfil(false) }}
+                />
+
+                <Modal
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                    onRequestClose={() => {
+                        alert('Modal has been closed.');
+                    }}>
+                    <StatusBar barStyle="dark-content" backgroundColor="#000"/>
+                    {
+                        this.modalrender()
+                    }
+                </Modal>
+                <StatusBar barStyle="dark-content" backgroundColor="white"/>
+                    { 
+                        this.state.list
+                        ? this.renderList()
+                        :<View style={styles.center2}>
+                            <Image source={require("../../../img/group3.png")} style={styles.iconImg} />
+                            <Text style={styles.txt}>
+                                Salve os seus documentos com segurança.
+                            </Text>
+                        </View> 
+                    }
+
+                    <View style={styles.footer}>
+                        <TouchableOpacity style={styles.buttonAdd} onPress={() => { this.setModalVisible(!this.state.modalVisible); }}>
+                            <Image source={require("../../../img/invalidName.png")} style={styles.plus}/>
+                        </TouchableOpacity>
+                    </View>
+            </View>
+        );
+    }
 
     modalrender(){
         return(
@@ -91,53 +134,6 @@ export default class Home extends React.Component {
                     />
             </View>
         )
-    }
-
-    render() {
-        _setModalHeader = (condition) => {
-            this.setState({modalPerfil: condition});
-        }
-        return (
-            <View style={styles.container}>
-                <MyPerfil
-                    visible={this.state.modalPerfil}
-                    setModalPerfil={ () => { this.setModalPerfil(false) }}
-                />
-
-
-                <Modal
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => {
-                        alert('Modal has been closed.');
-                    }}>
-                            <StatusBar barStyle="dark-content" backgroundColor="#000"/>
-
-                    {
-                        this.modalrender()
-                    }
-                </Modal>
-                <StatusBar barStyle="dark-content" backgroundColor="white"/>
-                    <View style={styles.base}>
-                        { 
-                            this.state.list
-                            ? this.renderList()
-                            : <View style={styles.center2}>
-                                <Image source={require("../../../img/group3.png")} style={styles.iconImg} />
-                                <Text style={styles.txt}>
-                                    Salve os seus documentos com segurança.
-                                </Text>
-                            </View> 
-                        }
-                    </View>
-
-                    <View style={styles.footer}>
-                        <TouchableOpacity style={styles.buttonAdd} onPress={() => { this.setModalVisible(!this.state.modalVisible); }}>
-                            <Image source={require("../../../img/invalidName.png")} style={styles.plus}/>
-                        </TouchableOpacity>
-                    </View>
-            </View>
-        );
     }
     
 }

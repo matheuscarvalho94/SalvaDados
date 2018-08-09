@@ -119,7 +119,13 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 12,
     fontWeight: '600'
-  }
+  },
+  icoRg: {
+    width: 36,
+    height: 25,
+    marginLeft: 16,
+    marginRight: 15,
+  },
 });
 
 export default styles;
