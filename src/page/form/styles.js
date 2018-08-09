@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 16,
     fontWeight: 'bold',
+    fontFamily: 'Open Sans',
     marginBottom: 32,
     color: 'rgba(54, 61, 79, 1)'
   },
@@ -30,12 +31,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '400',
     marginBottom: 12,
+    fontFamily: 'Open Sans',
     color: 'rgba(54, 61, 79, 1)'
   },
   txt3: {
     fontSize: 13,
     fontWeight: '400',
     marginBottom: 12,
+    fontFamily: 'Open Sans',
     marginTop: 32,
     paddingLeft: 16,
     color: 'rgba(54, 61, 79, 1)'
@@ -68,12 +71,14 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 15,
     paddingLeft: 16,
+    fontFamily: 'Open Sans',
     paddingRight: 16,
   },
   label: {
     fontSize: 12,
     color: colors.darker2,
     fontWeight: '600',
+    fontFamily: 'Open Sans',
     marginBottom: 5,
   },
   input: {
@@ -81,24 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bluelight,
     borderRadius: 6,
     color: colors.dark,
-    fontSize: 18,
-    paddingHorizontal: 15,
-  },
-  inputDate: {
-    height: 50,
-    width: '60%',
-    backgroundColor: colors.bluelight,
-    borderRadius: 6,
-    paddingLeft: 0,
-    paddingRight: 15,
-    borderWidth: 0
-  },
-  inputMini: {
-    width: '45%',
-    height: 50,
-    backgroundColor: colors.bluelight,
-    borderRadius: 6,
-    color: colors.dark,
+    fontFamily: 'Open Sans',
     fontSize: 18,
     paddingHorizontal: 15,
   },
@@ -118,6 +106,7 @@ const styles = StyleSheet.create({
   textButton: {
     color: colors.white,
     fontSize: 12,
+    fontFamily: 'Open Sans',
     fontWeight: '600'
   },
   icoRg: {

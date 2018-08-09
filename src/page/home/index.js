@@ -34,15 +34,13 @@ export default class Home extends React.Component {
     getDados(){
         store.get('@DadosSalvo')
             .then((res) =>{
-                console.log(res, 'DADOS?')
                 this.setState({
-                    list: res,
+                    list: res
                 })
             }
         )
     }
     componentDidMount() {
-        this.getDados()
     } 
     
 
@@ -56,6 +54,8 @@ export default class Home extends React.Component {
     });
 
     render() {
+        this.getDados()
+
         _setModalHeader = (condition) => {
             this.setState({modalPerfil: condition});
         }

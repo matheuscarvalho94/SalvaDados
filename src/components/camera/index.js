@@ -1,17 +1,10 @@
 import React from 'react'
-import {View, Alert, NativeModules, TouchableOpacity, ToastAndroid, Text, Modal, Image } from 'react-native';
+import {View, TouchableOpacity, Text, Modal, Image } from 'react-native';
 import Camera from 'react-native-camera';
-
 
 import styles from './styles';
 
 export default class CameraView extends React.Component {
-    state={
-        loading: false,
-        photoPermission: null,
-        foto64: ''
-      }
- 
   takePicture() {
     const options = {};
     this.camera.capture({metadata: options})
@@ -34,7 +27,6 @@ export default class CameraView extends React.Component {
     if(!visible) return (<View/>)
     return (
         
-        
       <Modal onRequestClose={() => {
             alert('Modal has been closed.');
         }}>
@@ -52,15 +44,11 @@ export default class CameraView extends React.Component {
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}
           >
-            <View style={styles.containerImagem}>
-                <Image source={require("../../../img/group4.png")} style={styles.imagemRg} />
-            </View>
-            
-              <TouchableOpacity
-                style={styles.capture}
-                onPress={this.takePicture.bind(this)}>
-                    <Image source={require("../../../img/group5.png")} style={styles.captureImg} />
-                </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.capture}
+              onPress={this.takePicture.bind(this)}>
+                  <Image source={require("../../../img/group5.png")} style={styles.captureImg} />
+            </TouchableOpacity>
         </Camera>
 
         </View>

@@ -13,7 +13,7 @@ export default class Splash extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: '#ccc'}}>
+      <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: '#dddfdf'}}>
         <Image source={require("../../../img/icon.png")} style={{width: 250, height: 250 }} />
       </View>
     );

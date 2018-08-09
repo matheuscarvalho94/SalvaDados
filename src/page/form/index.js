@@ -22,6 +22,7 @@ export default class Form extends React.Component {
     openCamera(visible){
         this.setState({status: visible})
     }
+    
     openFotoFrente(foto){
         this.setState({fotofrente: foto})
     }
@@ -96,6 +97,7 @@ export default class Form extends React.Component {
                             style={styles.input}
                             autoCapitalize="none"
                             autoCorrect={false}
+                            keyboardType='numeric'
                             underlineColorAndroid="transparent"
                             value={this.state.rg}
                             onChangeText={rg => this.setState({ rg })}
@@ -105,13 +107,13 @@ export default class Form extends React.Component {
                     <View style={styles.row}>
                         <Text style={styles.label}> DATA DE NASCIMENTO: </Text>
                         <DatePicker
-                        style={styles.inputdate}
                             customStyles={{
                             dateInput:{
                                 height: 50,
                                 width: '60%',
                                 backgroundColor: '#eef5fd',
                                 borderRadius: 6,
+                                fontFamily: 'Open Sans',
                                 paddingLeft: 5,
                                 paddingRight: 35,
                                 borderWidth: 0,
@@ -128,7 +130,6 @@ export default class Form extends React.Component {
                             }}
                             date={this.state.data}
                             mode="date"
-                            hideText="false"
                             placeholder=""
                             format="DD/MM/YYYY"
                             confirmBtnText="Confirmar"
@@ -190,7 +191,8 @@ export default class Form extends React.Component {
             return "Data";
         } 
         return true
-      }
+    }
+
     saveForm() {
         let mensagem = this.validation()
         if(mensagem==true){

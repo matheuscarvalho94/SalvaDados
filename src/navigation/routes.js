@@ -13,8 +13,11 @@ const navigationOptions = ({ navigation }) => ({
     height: 60,
     paddingTop: 10,
   },
-  titleStyle: {
-    fontFamily: 'OpenSansSemiBold',
+  headerTintColor: '#363d4f',
+  headerTitleStyle: {
+    fontSize: 16,
+    fontFamily: 'Open Sans',
+    fontWeight: '600',
   },
   headerBackTitle: null,
   headerLeft: null,

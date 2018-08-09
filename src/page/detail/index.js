@@ -3,15 +3,8 @@ import { View, Image, Text, TouchableOpacity, ScrollView, Modal, StatusBar } fro
 import styles from './styles';
 
 export default class DetailItem extends React.Component {
-// const DetailItem = ({ navigation }) => {
-    state = {
-        modalVisible: false,
-        imagem: ''
-    };
-    
     render(){
         const { item } = this.props.navigation.state.params;;
-        console.log(item)
         if(!item) return (<View/>)
         return (
             <View style={styles.container}>

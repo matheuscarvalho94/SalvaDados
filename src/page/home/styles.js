@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 17,
+    fontFamily: 'Open Sans',
     color: colors.secundary,
     textAlign: 'center',
   },
