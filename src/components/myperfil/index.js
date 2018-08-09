@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, ImageBackground, Modal } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, ImageBackground, Modal, StatusBar } from 'react-native';
 import styles from './styles';
 
 export default class MyPerfil extends React.Component {
@@ -10,11 +10,14 @@ export default class MyPerfil extends React.Component {
         return (
             <Modal
                 visible>
+                <StatusBar barStyle="light-content" backgroundColor="white"/>
+
                 <ScrollView>
+                    
                     <ImageBackground
                         style={styles.thumbnail}
-                        // source={{ uri: item.imagem }}
                         source={require("../../../img/rectangle9.png")}>
+
                         <TouchableOpacity style={styles.closed} onPress={ () => { setModalPerfil(false) }}>
                             <Image source={require("../../../img/combinedShape.png")} style={styles.closedImg} />
                         </TouchableOpacity>

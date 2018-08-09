@@ -1,16 +1,19 @@
 import React from 'react';
 import { View, StatusBar, Image, Text, TouchableOpacity, FlatList, Modal } from 'react-native';
 import styles from './styles';
-import data from './list';
 
 import MyPerfil from '../../components/myperfil';
-import { AsyncStorage } from "react-native";
+import ListItem from '../../components/list';
+
+import data from './list';
+import store from 'react-native-simple-store';
 
 export default class Home extends React.Component {
     state = {
         modalVisible: false,
         modalPerfil: false,
         listmodal: data,
+        list: ''
     };
     
     setModalPerfil = (condition) => {
@@ -23,21 +26,24 @@ export default class Home extends React.Component {
 
     changeThisTitle = (titleText) => {
         this.setModalVisible(!this.state.modalVisible);
-        this.props.navigation.navigate( 'Form', titleText );
+        this.props.navigation.navigate( 'Form', { 
+            item: { title: titleText }
+        } );
     }
 
-    verificaStorage = async () => {
-        try {
-          await AsyncStorage.setItem('@DadosSalvo', '[]');
-        } catch (error) {
-        }
-      }
+    getDados(){
+        store.get('@DadosSalvo')
+            .then((res) =>{
+                console.log(res)
+                this.setState({
+                    list: res,
+                })
+            }
+        )
+    }
 
     componentDidMount(){
-        this.verificaStorage()
-        AsyncStorage.getItem('@DadosSalvo', (err, result) => {
-            console.log(result, 'dados salvo')
-        });
+        this.getDados()
     }
 
     static navigationOptions = () => ({
@@ -69,6 +75,24 @@ export default class Home extends React.Component {
         )
     }
 
+    renderList(){
+        return(
+            <View style={styles.center}>
+                <FlatList
+                    data={this.state.list}
+                    navigation={ this.props.navigation }
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) =>
+                    <ListItem
+                        item={item}
+                        navigation={ this.props.navigation }
+                    />
+                    }
+                    />
+            </View>
+        )
+    }
+
     render() {
         _setModalHeader = (condition) => {
             this.setState({modalPerfil: condition});
@@ -94,17 +118,17 @@ export default class Home extends React.Component {
                     }
                 </Modal>
                 <StatusBar barStyle="dark-content" backgroundColor="white"/>
-                    <View style={styles.center}>
-                        <Image source={require("../../../img/group3.png")} style={styles.iconImg} />
-                        <Text style={styles.txt}>
-                            Salve os seus documentos com segurança.
-                        </Text>
-                    </View>
-
-                    <View>
-                        <TouchableOpacity onPress={() => {  this.props.navigation.navigate('DetailItem'); }}>
-                            <Text>Detalhes</Text>
-                        </TouchableOpacity>
+                    <View style={styles.base}>
+                        { 
+                            this.state.list
+                            ? this.renderList()
+                            : <View style={styles.center2}>
+                                <Image source={require("../../../img/group3.png")} style={styles.iconImg} />
+                                <Text style={styles.txt}>
+                                    Salve os seus documentos com segurança.
+                                </Text>
+                            </View> 
+                        }
                     </View>
 
                     <View style={styles.footer}>
@@ -115,4 +139,5 @@ export default class Home extends React.Component {
             </View>
         );
     }
+    
 }

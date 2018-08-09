@@ -84,6 +84,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingHorizontal: 15,
   },
+  inputDate: {
+    height: 50,
+    width: '60%',
+    backgroundColor: colors.bluelight,
+    borderRadius: 6,
+    paddingLeft: 0,
+    paddingRight: 15,
+    borderWidth: 0
+  },
   inputMini: {
     width: '45%',
     height: 50,

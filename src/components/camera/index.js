@@ -5,13 +5,10 @@ import styles from './styles';
 
 class CameraView extends React.Component {
 
-  takePicture = async () => {
-    try {
-      const data = await this.camera.takePictureAsync();
-      console.log('Path to image: ' + data.uri);
-    } catch (err) {
-      // console.log('err: ', err);
-    }
+  takePicture = async function() {
+    const options = { quality: 0.5, base64: true };
+    const data = await this.camera.takePictureAsync(options)
+    console.log(data.uri);
   };
 
   render() {
@@ -37,7 +34,8 @@ class CameraView extends React.Component {
             <Image source={require("../../../img/group4.png")} style={styles.imagemRg} />
           </View>
           <View style={styles.captureContainer}>
-            <TouchableOpacity   onPress={this.takePicture}>
+            <TouchableOpacity 
+            onPress={this.takePicture.bind(this)}>
               <Image source={require("../../../img/group5.png")} style={styles.captureImg} />
             </TouchableOpacity>
           </View>

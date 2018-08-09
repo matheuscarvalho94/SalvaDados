@@ -4,10 +4,14 @@ import styles from './styles';
 
 import CameraView from '../../components/camera';
 
+import store from 'react-native-simple-store';
+import DatePicker from 'react-native-datepicker';
+
 export default class Form extends React.Component {
     
-    state={
+    state = {
         status: false,
+        title: this.props.navigation.state.params,
         nome: '',
         rg: '',
         data: '',
@@ -25,8 +29,27 @@ export default class Form extends React.Component {
             <Image source={require("../../../img/icoSearch.png")} style={styles.arrow} />
           </TouchableOpacity>
         ),
-        title: `${navigation.state.params}`
+        title: navigation.state.params.item.title,
     });
+
+    componentDidMount() {
+        const { item } = this.props.navigation.state.params;
+        console.log('dadoos formularios', item)
+
+        if(item) {
+          this.setState({
+            title: item.title,
+            nome: item.nome,
+            rg: item.rg,
+            data: item.data,
+            fotofrente: item.fotofrente,
+            fotoverso: item.fotoverso
+          })
+          
+        }else{
+            console.log('dadoos')
+        }
+      }
 
     render() {
         return (
@@ -71,14 +94,37 @@ export default class Form extends React.Component {
 
                     <View style={styles.row}>
                         <Text style={styles.label}> DATA DE NASCIMENTO: </Text>
-                        <TextInput
-                            style={styles.inputMini}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            underlineColorAndroid="transparent"
-                            value={this.state.data}
-                            onChangeText={data => this.setState({ data })}
-                            />
+                        <DatePicker
+                            customStyles={{
+                            dateInput:{
+                                height: 50,
+                                width: '60%',
+                                backgroundColor: '#eef5fd',
+                                borderRadius: 6,
+                                paddingLeft: 5,
+                                paddingRight: 35,
+                                borderWidth: 0,
+                                marginTop: 10,
+                            },
+                            placeholderText: {
+                                color: '#363d4f',
+                                fontWeight: '600',
+                            },
+                            dateText:{
+                              color: '#363d4f',
+                              fontSize: 17,
+                            }
+                            }}
+                            date={this.state.data}
+                            mode="date"
+                            placeholder=""
+                            format="DD/MM/YYYY"
+                            confirmBtnText="Confirmar"
+                            cancelBtnText="Cancelar"
+                            showIcon = {false}
+                            onDateChange={(data) => {this.setState({data: data})}}
+                            
+                        />
                     </View>
 
                 </View>
@@ -100,7 +146,7 @@ export default class Form extends React.Component {
 
                 <View style={styles.areaButton}>
                     <TouchableOpacity style={styles.buttonSave} onPress={ () => {
-                        this._storeData()
+                        this.setAsyncStorage(this.state)
                     }}>
                         <Text style={styles.textButton}> SALVAR DOCUMENTO </Text>
                     </TouchableOpacity>
@@ -109,4 +155,17 @@ export default class Form extends React.Component {
             </View>
         );
     }
+    
+    setAsyncStorage() {
+        store.push('@DadosSalvo', this.state)
+        this.props.navigation.navigate('Home')
+    }
+
+    takePicture = async function() {
+        if (this.camera) {
+          const options = { quality: 0.5, base64: true };
+          const data = await this.camera.takePictureAsync(options)
+          console.log(data.uri);
+        }
+    };
 }

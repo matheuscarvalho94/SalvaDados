@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     paddingTop: 47,
   },
   header: {
-    // paddingTop: 50,
     paddingTop: Platform.OS === 'ios' ? 50 : 0,
 
   },
@@ -19,6 +18,9 @@ const styles = StyleSheet.create({
     height: 32,
   },
   center: {
+    width: '100%',
+  },
+  center2: {
     width: '60%',
     flexDirection: 'column',
     alignItems: 'center',
